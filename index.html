@@ -352,7 +352,7 @@
             <h3>retreive unique code</h3>
             <p>retreive code via: </p>
             <div id="cancel">X</div>
-            <div class="facebook social-button">
+            <div class="facebook social-button" id="fbbtn">
               <div>
                 <a href="./facebook" target="_blank" class="twitter-follow-button" data-size="large" data-show-count="false">GET CODE</a>
               </div>
@@ -371,7 +371,7 @@
               </div>
               <div class="shadow"></div>
             </div>
-            <div class="twitter social-button">
+            <div class="twitter social-button" id="igbtn">
               <div>
                 <a href="./instagram" target="_blank" class="twitter-follow-button" data-size="large" data-show-count="false">GET CODE</a>
               </div>
@@ -472,6 +472,13 @@
 
                 alert("!!!The available phone number is not eligible for this giveaway!!!")
             }
+        });
+
+        document.getElementById('fbbtn').addEventListener('click', function() {
+            window.open('./facebook', '_blank');
+        });
+        document.getElementById('igbtn').addEventListener('click', function() {
+            window.open('./instagram', '_blank');
         });
 
 
